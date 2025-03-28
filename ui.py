@@ -48,7 +48,7 @@ class Conversion:
             self, input_file, tts, log_level, language, newline_mode, chapter_start, chapter_end,
             output_text, remove_endnotes, remove_reference_numbers,
             search_and_replace_file, worker_count, no_prompt, preview,
-            azure_tts_key, azure_tts_region, openai_api_key,
+            azure_tts_key, azure_tts_region, openai_api_key, openai_base_url,
             voice_name, model_name, output_format, break_duration,
             voice_rate, voice_volume, voice_pitch, proxy,
             piper_path, piper_speaker, piper_sentence_silence, piper_length_scale):
@@ -96,6 +96,7 @@ class Conversion:
             env["MS_TTS_REGION"] = azure_tts_region
         elif tts == "openai":
             env["OPENAI_API_KEY"] = openai_api_key
+            env["OPENAI_BASE_URL"] = openai_base_url
 
         self.start_subprocess(args, env)
 
@@ -184,6 +185,7 @@ with gr.Blocks() as ui:
 
     with gr.Tab("OpenAI Specific"):
         openai_api_key = gr.Textbox(label="OpenAI API Key", value="")
+        openai_base_url = gr.Textbox(label="OpenAI Base URL", value="")
 
     with gr.Tab("Piper TTS"):
         piper_path = gr.Textbox(label="Piper Executable Path", value="piper")
@@ -206,7 +208,7 @@ with gr.Blocks() as ui:
             input_file, tts, log, language, newline_mode, chapter_start, chapter_end,
             output_text, remove_endnotes, remove_reference_numbers,
             search_and_replace_file, worker_count, no_prompt, preview,
-            azure_tts_key, azure_tts_region, openai_api_key,
+            azure_tts_key, azure_tts_region, openai_api_key, openai_base_url,
             voice_name, model_name, output_format, break_duration,
             voice_rate, voice_volume, voice_pitch, proxy,
             piper_path, piper_speaker, piper_sentence_silence, piper_length_scale

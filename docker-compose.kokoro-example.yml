@@ -23,28 +23,28 @@ services:
       timeout: 5s
       retries: 5
 
-  epub_to_audiobook:
-    build:
-      context: ./ # Directory containing the Dockerfile for epub_to_audiobook
-      dockerfile: Dockerfile # Name of the Dockerfile (if it's not the default 'Dockerfile')
-    container_name: epub_to_audiobook
-    environment:
-      - OPENAI_BASE_URL=http://kokoro:8880/v1
-      - OPENAI_API_KEY=nope
-      - PATH_TO_EPUB_FILE=${PATH_TO_EPUB_FILE}
-      - OUTPUT_DIR=${OUTPUT_DIR:-audiobook_output}
-      - VOICE_NAME=${VOICE_NAME:-af_bella}
-    volumes:
-      - ./:/app
-      - ${PATH_TO_EPUB_FILE}:/epub_src 
-    #command: tail /dev/null # Uncomment this line to keep the container running, and run via connecting to it with `docker exec -it epub_to_audiobook /bin/bash`
-    command: >
-      python main.py
-      "${PATH_TO_EPUB_FILE}"
-      "${OUTPUT_DIR}"
-      --tts openai
-      --no_prompt
-      --voice_name '${VOICE_NAME}'
-    depends_on:
-      kokoro:
-        condition: service_healthy
+  # epub_to_audiobook:
+  #   build:
+  #     context: ./ # Directory containing the Dockerfile for epub_to_audiobook
+  #     dockerfile: Dockerfile # Name of the Dockerfile (if it's not the default 'Dockerfile')
+  #   container_name: epub_to_audiobook
+  #   environment:
+  #     - OPENAI_BASE_URL=http://kokoro:8880/v1
+  #     - OPENAI_API_KEY=nope
+  #     - PATH_TO_EPUB_FILE=${PATH_TO_EPUB_FILE}
+  #     - OUTPUT_DIR=${OUTPUT_DIR:-audiobook_output}
+  #     - VOICE_NAME=${VOICE_NAME:-af_bella}
+  #   volumes:
+  #     - ./:/app
+  #     - ${PATH_TO_EPUB_FILE}:/epub_src 
+  #   #command: tail /dev/null # Uncomment this line to keep the container running, and run via connecting to it with `docker exec -it epub_to_audiobook /bin/bash`
+  #   command: >
+  #     python main.py
+  #     "${PATH_TO_EPUB_FILE}"
+  #     "${OUTPUT_DIR}"
+  #     --tts openai
+  #     --no_prompt
+  #     --voice_name '${VOICE_NAME}'
+  #   depends_on:
+  #     kokoro:
+  #       condition: service_healthy
